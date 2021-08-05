@@ -83,15 +83,16 @@ ORDER BY COUNT(*) DESC
 --Lambs Cincinatti 
 
 --#7 all customers who made a single payment above 6.99
-SELECT *
+
+SELECT first_name, last_name
 FROM customer
-
-SELECT customer_id, amount
-FROM payment
-GROUP BY customer_id
-WHERE amount > 6.99
-
-
+WHERE customer_id IN (
+	SELECT payment.customer_id
+	FROM customer
+	FULL JOIN payment
+	ON customer.customer_id = payment.customer_id
+	WHERE payment.amount = 6.99
+);
 
 
 --#8 which category is most prevalent
